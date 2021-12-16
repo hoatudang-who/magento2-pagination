@@ -1,0 +1,44 @@
+<?php
+/**
+ * @var $block \Duonght\Pagination\Block\Index
+ */
+?>
+
+<?php $gridrecords = $block->getCustomCollection(); ?>
+<?php if ($gridrecords && sizeof($gridrecords)): ?>
+    <div class="table-wrapper orders-history">
+        <table class="data table table-order-items history" id="my-orders-table">
+            <caption class="table-caption"><?php echo __('Grid Record') ?></caption>
+            <thead>
+            <tr>
+                <th scope="col" class="col id"><?php echo __('ID') ?></th>
+                <th scope="col" class="col title"><?php echo __('Created At') ?></th>
+                <th scope="col" class="col product"><?php echo __('Product Name') ?></th>
+                <th scope="col" class="col amount"><?php echo __('Price') ?></th>
+            </tr>
+            </thead>
+            <tbody>
+            <?php
+            foreach ($gridrecords as $gridrecord): ?>
+                <tr>
+                    <td data-th="<?= $block->escapeHtml(__('ID')) ?>" class="col id">
+                        <?php echo $gridrecord->getData('title') ?>
+                    </td>
+                    <td data-th="<?= $block->escapeHtml(__('Created At')) ?>"
+                        class="col title"><?php echo date('Y-m-d', strtotime($gridrecord->getCreatedDate())); ?></td>
+                    <td data-th="<?= $block->escapeHtml(__('Product Name')) ?>" class="col product">
+                        <?php echo $gridrecord->getData('detail') ?>
+                    </td>
+                    <td data-th="<?= $block->escapeHtml(__('Price')) ?>"
+                        class="col amount"><?php echo $block->getFormattedPrice($gridrecord->getPrice()) ?></td>
+                </tr>
+            <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
+    <?php if ($block->getPagerHtml()): ?>
+        <div class="order-products-toolbar toolbar bottom"><?php echo $block->getPagerHtml(); ?></div>
+    <?php endif ?>
+<?php else: ?>
+    <div class="message info empty"><span><?php echo __('No any record.'); ?></span></div>
+<?php endif ?>
